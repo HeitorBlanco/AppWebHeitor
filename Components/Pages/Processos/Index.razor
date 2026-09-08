@@ -1,4 +1,5 @@
 ﻿@page "/Processos"
+@inject ProcessoDAO ProcessoDAO
 
 <PageTitle>Processos - Sistema de Controle de Processos</PageTitle>
 
@@ -23,18 +24,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>(69) 99208 - 1320</td>
-                    <td>Heitor Blanco de MAtos</td>
-                    <td>Auto escolas</td>
-                    <td>Aprendendo a dirigir</td>
-                    <td>Esta estudando leis de transito</td>
-                </tr>
+                @foreach (var processo in processos)
+                {
+                    <tr>
+                        <td>@processo.Id</td>
+                        <td>@processo.Numero</td>
+                        <td>@processo.Interessado</td>
+                        <td>@processo.Assunto</td>
+                        <td>@processo.Situacao</td>
+                        <td></td>
+                    </tr>
+                }
+                
             </tbody>
         </table>
     </div>
 </div>
-@code {
 
-}
+@code {
+    private List<Processo> processos = new();
+
+    protected override void OnInitialized()
+    {
+        // Chama o DAO para buscar os dados no banco
+        processos = ProcessoDAO.Listar();
+    }
+    }
